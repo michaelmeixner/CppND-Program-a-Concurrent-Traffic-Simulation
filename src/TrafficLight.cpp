@@ -32,7 +32,7 @@ void MessageQueue<T>::send(T &&msg)
     // modify vector under lock
     std::lock_guard<std::mutex> lock(_mutex);
     // add vector to queue; notify client after new vehicle pushed into vector
-    _queue.push_back(std::move(msg));
+    _queue.emplace_back(std::move(msg));
     _cond.notify_one();
 }
 
@@ -53,7 +53,6 @@ void TrafficLight::waitForGreen()
         if (message == TrafficLightPhase::kGreen) {
             return;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 
