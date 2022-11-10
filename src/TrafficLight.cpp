@@ -77,6 +77,8 @@ void TrafficLight::cycleThroughPhases()
             } else if (_currentPhase == TrafficLightPhase::kRed) {
                 _currentPhase == TrafficLightPhase::kGreen;
             }
+            // send update to message queue
+            _queue.send(std::move(_currentPhase));
             time0 = std::chrono::steady_clock::now();
             cycletime = urd(twister);
         }
